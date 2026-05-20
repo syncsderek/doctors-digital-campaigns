@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Patient-Gen | High-Converting Medical Websites</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Pinyon+Script&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#F5F7F4',
+                        'primary-text': '#0B1320',
+                        'secondary-text': '#4B5563',
+                        'accent-blue': '#3B82F6',
+                        'cta-green': '#16C47F',
+                        'dark-section': '#071B34',
+                        border: 'rgba(11,19,32,0.08)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Instrument Serif', 'serif'],
+                    },
+                    boxShadow: {
+                        'soft-ambient': '0 10px 40px rgba(0,0,0,0.06)',
+                        'glow': '0 0 30px rgba(22, 196, 127, 0.4)',
+                        'blue-glow': '0 0 40px rgba(59, 130, 246, 0.3)',
+                    },
+                    spacing: {
+                        'section-gap': '120px',
+                    },
+                    borderRadius: {
+                        'premium': '24px',
+                        'premium-lg': '28px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ── Global responsive baseline ───────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .bento-item {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .bento-item:hover {
+            transform: translateY(-4px);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+        }
+
+        .modal-content {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 101;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-marquee {
+            display: flex;
+            width: fit-content;
+            animation: marquee 10s linear infinite;
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        /* Trust bar dark-bg marquee – fade edges into #071C34 */
+        .trust-bar-marquee {
+            mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+        }
+
+        /* White logos on dark background */
+        .trust-logo {
+            filter: brightness(0) invert(1);
+            opacity: 0.5;
+        }
+
+        .trust-logo:hover {
+            opacity: 1;
+        }
+
+        /* ── Packages / Pricing section ─────────────────────────── */
+        @media (max-width: 1024px) {
+            .pkg-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            .pkg-card-dark {
+                transform: scale(1) !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .pkg-grid, .testimonials-grid {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                scroll-snap-type: x mandatory !important;
+                padding-bottom: 24px !important;
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none; /* IE/Edge */
+            }
+            .pkg-grid::-webkit-scrollbar, .testimonials-grid::-webkit-scrollbar {
+                display: none; /* Chrome/Safari/Opera */
+            }
+            .pkg-grid > div, .testimonials-grid > div {
+                flex: 0 0 85% !important;
+                min-width: 85% !important;
+                scroll-snap-align: center !important;
+            }
+
+            #packages-section {
+                padding-top: 72px !important;
+                padding-bottom: 80px !important;
+            }
+        }
+
+        .pkg-card-light:hover {
+            transform: translateY(-6px) !important;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.10) !important;
+        }
+
+        .pkg-card-dark:hover {
+            transform: scale(1.06) translateY(-4px) !important;
+            box-shadow: 0 40px 100px rgba(7, 27, 52, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.12) !important;
+        }
+
+        .pkg-btn-light:hover {
+            background: #1a2f4a !important;
+            transform: translateY(-1px);
+        }
+
+        .pkg-btn-green:hover {
+            box-shadow: 0 0 50px rgba(22, 196, 127, 0.65) !important;
+            transform: translateY(-2px);
+        }
+
+        .pkg-btn-blue:hover {
+            background: #F5F7F4 !important;
+            border-color: rgba(11, 19, 32, 0.3) !important;
+            transform: translateY(-1px);
+        }
+
+        @keyframes pulse-overlay {
+
+            0%,
+            100% {
+                opacity: 0.05;
+            }
+
+            50% {
+                opacity: 0.15;
+            }
+        }
+
+        @keyframes shine-pulse {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            50% {
+                background-position: 100% 100%;
+            }
+
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+        .lamp-main {
+            width: 4rem;
+        }
+
+        .lamp-main.in-view {
+            width: 12rem;
+        }
+
+        .lamp-line {
+            width: 5rem;
+        }
+
+        .lamp-line.in-view {
+            width: 15rem;
+        }
+
+        .lamp-cone {
+            width: 5rem;
+            opacity: 0.5;
+        }
+
+        .lamp-cone.in-view {
+            width: 15rem;
+            opacity: 1;
+        }
+
+        @media (min-width: 768px) {
+            .lamp-main {
+                width: 8rem;
+            }
+
+            .lamp-main.in-view {
+                width: 28rem;
+            }
+
+            .lamp-line {
+                width: 15rem;
+            }
+
+            .lamp-line.in-view {
+                width: 30rem;
+            }
+
+            .lamp-cone {
+                width: 15rem;
+                opacity: 0.5;
+            }
+
+            .lamp-cone.in-view {
+                width: 30rem;
+                opacity: 1;
+            }
+        }
+
+        /* ── "Automatically." wavy underline ─────────────────────── */
+        .accent-underline-wrap {
+            display: block;
+            width: 100%;
+            line-height: 0;
+            margin-top: -2px;
+        }
+
+        .accent-underline-svg {
+            display: block;
+            width: 100%;
+            height: 18px;
+            overflow: visible;
+        }
+
+        #accent-underline-path {
+            stroke-dasharray: 700;
+            stroke-dashoffset: 700;
+            transition: none;
+        }
+
+        #accent-underline-path.draw {
+            animation: underline-draw 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes underline-draw {
+            0% {
+                stroke-dashoffset: 700;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            100% {
+                stroke-dashoffset: 0;
+                opacity: 1;
+            }
+        }
+
+        /* ── "Automatically." accent word animation ───────────────── */
+        .accent-word {
+            display: inline-block;
+            opacity: 0;
+            filter: blur(12px);
+        }
+
+        .accent-word.revealed {
+            animation: accent-reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes accent-reveal {
+            0% {
+                opacity: 0;
+                filter: blur(12px);
+                transform: translateY(6px);
+            }
+
+            40% {
+                opacity: 0.7;
+                filter: blur(3px);
+                transform: translateY(2px);
+            }
+
+            100% {
+                opacity: 1;
+                filter: blur(0px);
+                transform: translateY(0px);
+            }
+        }
+
+        /* ── Feature card animated border ─────────────────────────── */
+        @keyframes border-spin {
+            0% {
+                --border-angle: 0deg;
+            }
+
+            100% {
+                --border-angle: 360deg;
+            }
+        }
+
+        @property --border-angle {
+            syntax: '<angle>';
+            inherits: true;
+            initial-value: 0deg;
+        }
+
+        .feature-card {
+            position: relative;
+            border-radius: 24px;
+            background: white;
+            padding: 2rem;
+            /* hide the pseudo-element outside the radius */
+            overflow: hidden;
+            /* remove the old border – the pseudo handles it */
+            border: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: border-spin 4s linear infinite;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1.5px;
+            /* border thickness */
+            background: conic-gradient(from var(--border-angle),
+                    transparent 20%,
+                    #071C34 40%,
+                    #1a4a7a 50%,
+                    #071C34 60%,
+                    transparent 80%);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(7, 28, 52, 0.15);
+        }
+
+        .feature-card:nth-child(2) {
+            animation-delay: -1s;
+        }
+
+        .feature-card:nth-child(3) {
+            animation-delay: -2s;
+        }
+
+        .feature-card:nth-child(4) {
+            animation-delay: -3s;
+        }
+
+        /* ── Sparkles headline wrapper ──────────────────────────── */
+        .sparkles-headline-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        #sparkles-headline-canvas {
+            position: absolute;
+            inset: -40px -60px;
+            width: calc(100% + 120px);
+            height: calc(100% + 80px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        @media (max-width: 640px) {
+            #sparkles-headline-canvas {
+                inset: -20px -16px;
+                width: calc(100% + 32px);
+                height: calc(100% + 40px);
+            }
+        }
+
+        #sparkles-headline-canvas.visible {
+            opacity: 1;
+        }
+
+        .sparkles-headline-wrapper h2 {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Instrument Serif (normal) for all headings outside hero ───── */
+        main h2,
+        main h3,
+        main h4 {
+            font-family: 'Instrument Serif', serif !important;
+            font-style: normal !important;
+        }
+
+        /* Hero section keeps its own inline styling — reset to let it through */
+        #hero-section h1,
+        #hero-section span {
+            font-style: inherit;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-primary-text font-sans pb-20 md:pb-0" style="overflow-x:hidden;">
+    <main>
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden bg-background py-16 lg:py-section-gap w-full" id="hero-section">
+            <!-- Confetti Canvas -->
+            <canvas id="hero-confetti" class="absolute inset-0 w-full h-full pointer-events-none z-50"></canvas>
+            <!-- Ambient Background -->
+            <div
+                class="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#c9e6ff]/30 via-[#4edea3]/10 to-transparent opacity-70">
+            </div>
+            <div
+                class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-cta-green/10 blur-[120px] pointer-events-none">
+            </div>
+
+            <div
+                class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center relative z-10">
+                <!-- Left Side: Editorial Typography -->
+                <div class="z-10 text-center lg:text-left flex flex-col items-center lg:items-start">
+                    <span
+                        class="inline-block px-5 py-2 mb-8 rounded-full border border-border bg-white/50 backdrop-blur-md text-secondary-text text-sm font-semibold uppercase tracking-widest shadow-sm">
+                        Patient Growth Engine
+                    </span>
+                    <h1 id="hero-h1"
+                        class="text-[42px] sm:text-[56px] md:text-[72px] lg:text-[82px] font-semibold leading-[1.05] tracking-[-0.01em] text-primary-text mb-8 transition-all duration-700 opacity-0 translate-y-10"
+                        style="font-family: 'Instrument Serif', serif;">
+                        Turn Website Visitors<br>
+                        Into Booked Patients.<br>
+                        <span id="accent-word"
+                            class="accent-word italic font-medium text-[44px] sm:text-[60px] md:text-[76px] lg:text-[90px] leading-[0.9] tracking-[0.01em] text-accent-blue"
+                            style="font-family: 'Instrument Serif', serif;">Automatically.</span>
+                        <!-- Animated wavy underline -->
+                        <span class="accent-underline-wrap" aria-hidden="true">
+                            <svg id="accent-underline" class="accent-underline-svg" viewBox="0 0 300 18"
+                                preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                <path id="accent-underline-path" d="M 0,9 Q 50,2 100,9 Q 150,16 200,9 Q 250,2 300,9"
+                                    stroke="#3B82F6" stroke-width="2.5" fill="none" stroke-linecap="round" />
+                            </svg>
+                        </span>
+                    </h1>
+                    <p class="text-base md:text-lg lg:text-xl mb-10 max-w-xl leading-relaxed" style="color:#3A3A3A;">
+                        High-converting patient acquisition websites engineered for doctors, clinics, therapists, and
+                        healthcare professionals who want more booked appointments and stronger local authority.
+                    </p>
+                    <div
+                        class="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center w-full sm:w-auto">
+                        <button
+                            class="w-full sm:w-auto bg-cta-green text-white px-10 py-5 rounded-premium font-semibold text-lg shadow-glow hover:shadow-[0_0_40px_rgba(22,196,127,0.6)] animate-hover-lift"
+                            onclick="openModal()">
+                            Build My Patient-Gen Page
+                        </button>
+
+                    </div>
+                </div>
+
+                <!-- Right Side: CSS Mockup UI -->
+                <div class="relative w-full h-[500px] lg:h-[700px] hidden md:block mt-12 lg:mt-0">
+                    <!-- Central Dashboard Card -->
+                    <div
+                        class="absolute top-[5%] lg:top-[10%] left-[5%] right-[5%] h-[90%] lg:h-[80%] bg-white rounded-premium shadow-soft-ambient border border-border animate-float overflow-hidden flex flex-col z-20">
+                        <!-- Header -->
+                        <div class="h-14 border-b border-border flex items-center px-6 justify-between bg-gray-50">
+                            <div class="flex gap-2">
+                                <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                            </div>
+                            <div class="text-xs font-semibold text-secondary-text uppercase tracking-widest">Growth
+                                Analytics</div>
+                        </div>
+                        <!-- Content -->
+                        <div class="flex-1 p-6 lg:p-8 grid grid-cols-2 gap-4 lg:gap-6 relative overflow-hidden">
+                            <!-- Graph Mockup -->
+                            <div
+                                class="col-span-2 h-28 lg:h-40 rounded-xl bg-gradient-to-t from-accent-blue/10 to-transparent border border-accent-blue/20 relative flex items-end p-4">
+                                <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none"
+                                    viewBox="0 0 100 100">
+                                    <path d="M0 100 Q 20 80, 40 90 T 100 20 L 100 100 Z" fill="rgba(59,130,246,0.1)"
+                                        stroke="rgba(59,130,246,0.5)" stroke-width="2" />
+                                </svg>
+                                <div class="z-10">
+                                    <div class="text-4xl font-bold text-primary-text"
+                                        style="font-family: 'Instrument Serif', serif;">+142%</div>
+                                    <div class="text-sm text-secondary-text font-medium">New Patient Bookings</div>
+                                </div>
+                            </div>
+                            <!-- Stats -->
+                            <div class="bg-gray-50 rounded-xl p-4 lg:p-5 border border-border">
+                                <div class="text-sm text-secondary-text mb-2">Conversion Rate</div>
+                                <div class="text-2xl font-bold text-primary-text">8.4%</div>
+                                <div class="text-xs text-cta-green mt-1 font-semibold flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[14px]">trending_up</span> 2.1%</div>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-4 lg:p-5 border border-border">
+                                <div class="text-sm text-secondary-text mb-2">Cost Per Lead</div>
+                                <div class="text-2xl font-bold text-primary-text">$42</div>
+                                <div class="text-xs text-cta-green mt-1 font-semibold flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[14px]">trending_down</span> $12</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating Widget 1: Appointment Card -->
+                    <div class="absolute top-[65%] right-[-5%] lg:right-[-10%] w-[240px] lg:w-[280px] bg-white rounded-premium shadow-soft-ambient border border-border p-4 lg:p-5 z-30 animate-float"
+                        style="animation-delay: 1s;">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div
+                                class="w-10 lg:w-12 h-10 lg:h-12 rounded-full bg-accent-blue/10 flex items-center justify-center text-accent-blue">
+                                <span class="material-symbols-outlined">event</span>
+                            </div>
+                            <div>
+                                <div class="font-bold text-sm lg:text-base text-primary-text">New Consultation</div>
+                                <div class="text-xs text-secondary-text">Today, 2:30 PM</div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center text-sm font-medium">
+                            <span class="text-secondary-text">Sarah Jenkins</span>
+                            <span class="text-cta-green bg-cta-green/10 px-2 py-1 rounded-md text-xs">Confirmed</span>
+                        </div>
+                    </div>
+
+                    <!-- Floating Widget 2: Trust Notification -->
+                    <div class="absolute top-[20%] left-[-5%] lg:left-[-15%] w-[200px] lg:w-[220px] bg-dark-section rounded-premium shadow-soft-ambient border border-white/10 p-4 z-30 animate-float text-white"
+                        style="animation-delay: 2s;">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-8 lg:w-10 h-8 lg:h-10 rounded-full bg-cta-green flex items-center justify-center">
+                                <span class="material-symbols-outlined text-sm lg:text-base">check_circle</span>
+                            </div>
+                            <div>
+                                <div class="font-bold text-xs lg:text-sm">HIPAA Compliant</div>
+                                <div class="text-[10px] lg:text-xs text-white/60">Secure Data Flow</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Trust Bar -->
+        <section class="py-16 border-b border-white/10 overflow-hidden" style="background-color: #071C34;">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <p class="text-sm font-semibold text-white/60 mb-12 uppercase tracking-widest">
+                    Trusted by Growth-Focused Healthcare Practices
+                </p>
+                <div class="marquee-container trust-bar-marquee">
+                    <div class="animate-marquee items-center gap-[40px] px-8">
+                        <!-- First set of logos -->
+                        <img alt="Apollo Hospitals" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/Apollo.png" />
+                        <img alt="Aster" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/Aster.png" />
+                        <img alt="Fortis" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/Fortis.png" />
+                        <img alt="Global Hospitals" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/GH.png" />
+                        <img alt="Max Healthcare" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/MAXHEALTH.PNG" />
+                        <img alt="MGM" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/MGM.png" />
+                        <img alt="Narayana Health" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/NarayanHospitals.png" />
+                        <img alt="Yashoda" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/Yashoda.png" />
+                        <!-- Duplicate set for seamless looping -->
+                        <img alt="Apollo Hospitals" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/Apollo.png" />
+                        <img alt="Aster" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/Aster.png" />
+                        <img alt="Fortis" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/Fortis.png" />
+                        <img alt="Global Hospitals" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/GH.png" />
+                        <img alt="Max Healthcare" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/MAXHEALTH.PNG" />
+                        <img alt="MGM" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/MGM.png" />
+                        <img alt="Narayana Health" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/NarayanHospitals.png" />
+                        <img alt="Yashoda" class="trust-logo h-12 md:h-16 w-auto transition-all duration-500"
+                            src="./Hospital_Logos/Yashoda.png" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Repeating CTA -->
+        <section class="py-16 bg-background text-center hidden">
+            <div class="max-w-7xl mx-auto px-6">
+                <button
+                    class="bg-cta-green text-white px-10 py-5 rounded-premium font-semibold text-lg shadow-glow hover:shadow-[0_0_40px_rgba(22,196,127,0.6)] animate-hover-lift inline-block"
+                    onclick="openModal()">
+                    Build My Patient-Gen Page
+                </button>
+            </div>
+        </section><!-- Problem & Agitation -->
+        <section class="relative overflow-hidden py-16 lg:py-section-gap bg-dark-section text-white"
+            id="problem-section">
+            <div class="absolute top-0 isolate z-0 flex w-full flex-1 items-start justify-center pt-8">
+                <div
+                    class="lamp-anim lamp-main absolute inset-auto z-0 h-36 rounded-full bg-accent-blue/40 opacity-80 blur-3xl transition-all duration-1000 ease-in-out delay-300">
+                </div>
+                <div
+                    class="lamp-anim lamp-line absolute inset-auto z-10 h-0.5 bg-accent-blue/60 transition-all duration-1000 ease-in-out delay-300">
+                </div>
+                <div class="lamp-anim lamp-cone absolute inset-auto right-1/2 h-56 transition-all duration-1000 ease-in-out delay-300"
+                    style="background-image: conic-gradient(from 70deg at center top, rgba(59,130,246,0.4), transparent, transparent);">
+                    <div class="absolute w-full left-0 bg-dark-section h-40 bottom-0 z-20"
+                        style="-webkit-mask-image: linear-gradient(to top, white, transparent);"></div>
+                    <div class="absolute w-40 h-full left-0 bg-dark-section bottom-0 z-20"
+                        style="-webkit-mask-image: linear-gradient(to right, white, transparent);"></div>
+                </div>
+                <div class="lamp-anim lamp-cone absolute inset-auto left-1/2 h-56 transition-all duration-1000 ease-in-out delay-300"
+                    style="background-image: conic-gradient(from 290deg at center top, transparent, transparent, rgba(59,130,246,0.4));">
+                    <div class="absolute w-40 h-full right-0 bg-dark-section bottom-0 z-20"
+                        style="-webkit-mask-image: linear-gradient(to left, white, transparent);"></div>
+                    <div class="absolute w-full right-0 bg-dark-section h-40 bottom-0 z-20"
+                        style="-webkit-mask-image: linear-gradient(to top, white, transparent);"></div>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-20 mt-16 md:mt-20">
+                <div class="max-w-4xl mx-auto text-center mb-12 md:mb-20">
+                    <h2 class="text-[36px] sm:text-[48px] md:text-[60px] lg:text-[72px] font-semibold leading-[1] tracking-[-0.04em] text-white mb-6 transition-all duration-700 opacity-0 translate-y-10"
+                        style="font-family: 'Instrument Serif', serif;">
+                        Your Website Looks Fine.<br>
+                        <span class="text-white/60">But It Doesn't</span><br>
+                        Generate Patients.
+                    </h2>
+                    <p class="text-lg text-white/70 max-w-2xl mx-auto">
+                        While you focus on patient care, your digital front door is turning away dozens of potential
+                        appointments every single day due to outdated conversion systems.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-20">
+                    <!-- Card 1 -->
+                    <div
+                        class="relative bg-white/5 rounded-premium bento-item transition-all duration-700 opacity-0 translate-y-10 hover:shadow-soft-ambient group">
+                        <div class="pointer-events-none absolute inset-0 size-full rounded-[inherit] p-[1px] will-change-[background-position]"
+                            style="background-image: radial-gradient(transparent, transparent, rgba(239, 68, 68, 0.4), transparent, transparent); background-size: 300% 300%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; animation: shine-pulse 6s infinite linear;">
+                        </div>
+                        <div class="relative z-10 p-8 lg:p-10 h-full flex flex-col">
+                            <div
+                                class="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 mb-6 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-2xl">trending_down</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3">Zero Patient Flow</h3>
+                            <p class="text-white/70 text-sm leading-relaxed">Visitors scroll, leave, and never come
+                                back. Your site isn't a funnel; it's a dead end without clear paths to booking.</p>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="relative bg-white/5 rounded-premium bento-item transition-all duration-700 opacity-0 translate-y-10 hover:shadow-soft-ambient group"
+                        style="transition-delay: 100ms;">
+                        <div class="pointer-events-none absolute inset-0 size-full rounded-[inherit] p-[1px] will-change-[background-position]"
+                            style="background-image: radial-gradient(transparent, transparent, rgba(239, 68, 68, 0.4), transparent, transparent); background-size: 300% 300%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; animation: shine-pulse 6s infinite linear;">
+                        </div>
+                        <div class="relative z-10 p-8 lg:p-10 h-full flex flex-col">
+                            <div
+                                class="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 mb-6 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-2xl">water_damage</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3">The "Leaky Bucket" Effect</h3>
+                            <p class="text-white/70 text-sm leading-relaxed">Spending on ads? You're pouring money into
+                                a site that fails to capture leads at the moment of peak interest.</p>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="relative bg-white/5 rounded-premium bento-item transition-all duration-700 opacity-0 translate-y-10 hover:shadow-soft-ambient group"
+                        style="transition-delay: 200ms;">
+                        <div class="pointer-events-none absolute inset-0 size-full rounded-[inherit] p-[1px] will-change-[background-position]"
+                            style="background-image: radial-gradient(transparent, transparent, rgba(239, 68, 68, 0.4), transparent, transparent); background-size: 300% 300%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; animation: shine-pulse 6s infinite linear;">
+                        </div>
+                        <div class="relative z-10 p-8 lg:p-10 h-full flex flex-col">
+                            <div
+                                class="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 mb-6 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-2xl">warning</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3">Low Trust Experience</h3>
+                            <p class="text-white/70 text-sm leading-relaxed">Complex forms, generic designs, and slow
+                                load times kill patient trust before the first consultation even happens.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Feature Comparison Section -->
+        <section class="py-16 lg:py-section-gap bg-background" id="solution-section">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-16">
+                    <div class="sparkles-headline-wrapper">
+                        <canvas id="sparkles-headline-canvas"></canvas>
+                        <h2 class="text-[32px] sm:text-[40px] md:text-[52px] lg:text-[64px] font-semibold leading-tight tracking-[-0.03em] text-primary-text transition-all duration-700 opacity-0 translate-y-10"
+                            style="font-family: 'Instrument Serif', serif;">The Complete Practice-Growth Engine</h2>
+                    </div>
+                </div>
+
+                <!-- Comparison -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mb-20">
+                    <!-- Left: Standard Websites -->
+                    <div
+                        class="p-6 sm:p-8 lg:p-10 bg-white rounded-premium border border-border flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-6 text-secondary-text opacity-70">Standard Websites</h3>
+                            <p class="text-lg text-secondary-text mb-8 italic"
+                                style="font-family: 'Instrument Serif', serif;">"Just a digital brochure that sits
+                                there."</p>
+                            <ul class="space-y-5">
+                                <li class="flex items-center gap-4 text-secondary-text">
+                                    <span class="material-symbols-outlined text-gray-400">close</span> Outdated, generic
+                                    templates
+                                </li>
+                                <li class="flex items-center gap-4 text-secondary-text">
+                                    <span class="material-symbols-outlined text-gray-400">close</span> No active
+                                    conversion systems
+                                </li>
+                                <li class="flex items-center gap-4 text-secondary-text">
+                                    <span class="material-symbols-outlined text-gray-400">close</span> Weak trust
+                                    indicators
+                                </li>
+                                <li class="flex items-center gap-4 text-secondary-text">
+                                    <span class="material-symbols-outlined text-gray-400">close</span> Slow, multi-step
+                                    booking flow
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right: Patient-Gen Systems -->
+                    <div
+                        class="p-6 sm:p-8 lg:p-10 bg-dark-section text-white rounded-premium flex flex-col justify-between shadow-2xl relative overflow-hidden group border border-white/10">
+                        <!-- Subtle Grid Texture -->
+                        <div class="absolute inset-0 z-0 opacity-20 pointer-events-none"
+                            style="background-image: radial-gradient(circle at center, white 1px, transparent 1px); background-size: 24px 24px;">
+                        </div>
+                        <div
+                            class="absolute top-0 right-0 w-64 h-64 bg-cta-green/20 rounded-full blur-[80px] pointer-events-none transition-transform group-hover:scale-150">
+                        </div>
+
+                        <div class="relative z-10">
+                            <h3 class="text-2xl font-bold mb-6 text-white">Our Patient-Gen Systems</h3>
+                            <p class="text-xl text-white mb-8 font-semibold italic"
+                                style="font-family: 'Instrument Serif', serif;">"A 24/7 digital receptionist that
+                                actively books appointments."</p>
+                            <ul class="space-y-5">
+                                <li class="flex items-center gap-4 font-medium">
+                                    <span
+                                        class="material-symbols-outlined text-cta-green drop-shadow-glow">check_circle</span>
+                                    24/7 appointment capture
+                                </li>
+                                <li class="flex items-center gap-4 font-medium">
+                                    <span
+                                        class="material-symbols-outlined text-cta-green drop-shadow-glow">check_circle</span>
+                                    Aggressive conversion optimization
+                                </li>
+                                <li class="flex items-center gap-4 font-medium">
+                                    <span
+                                        class="material-symbols-outlined text-cta-green drop-shadow-glow">check_circle</span>
+                                    Mobile-first clinical UX
+                                </li>
+                                <li class="flex items-center gap-4 font-medium">
+                                    <span
+                                        class="material-symbols-outlined text-cta-green drop-shadow-glow">check_circle</span>
+                                    HIPAA-friendly architecture
+                                </li>
+                                <li class="flex items-center gap-4 font-medium">
+                                    <span
+                                        class="material-symbols-outlined text-cta-green drop-shadow-glow">check_circle</span>
+                                    Local authority positioning
+                                </li>
+                                <li class="flex items-center gap-4 font-medium">
+                                    <span
+                                        class="material-symbols-outlined text-cta-green drop-shadow-glow">check_circle</span>
+                                    Automation-ready CRM sync
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 Premium Features -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="feature-card">
+                        <div
+                            class="w-12 h-12 rounded-full bg-accent-blue/10 flex items-center justify-center text-accent-blue mb-6">
+                            <span class="material-symbols-outlined">smartphone</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-3">Mobile-First</h4>
+                        <p class="text-sm text-secondary-text leading-relaxed">Engineered for the 80% of healthcare
+                            searches happening on phones.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div
+                            class="w-12 h-12 rounded-full bg-accent-blue/10 flex items-center justify-center text-accent-blue mb-6">
+                            <span class="material-symbols-outlined">bolt</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-3">Fast Loading</h4>
+                        <p class="text-sm text-secondary-text leading-relaxed">Lightning-fast architecture that prevents
+                            patient drop-off.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div
+                            class="w-12 h-12 rounded-full bg-accent-blue/10 flex items-center justify-center text-accent-blue mb-6">
+                            <span class="material-symbols-outlined">location_on</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-3">Local SEO Ready</h4>
+                        <p class="text-sm text-secondary-text leading-relaxed">Structured specifically to dominate your
+                            local practice area.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div
+                            class="w-12 h-12 rounded-full bg-accent-blue/10 flex items-center justify-center text-accent-blue mb-6">
+                            <span class="material-symbols-outlined">hub</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-3">Automated Lead Flow</h4>
+                        <p class="text-sm text-secondary-text leading-relaxed">Direct integration with your scheduling
+                            and CRM tools.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Repeating CTA (Hidden) -->
+        <section class="hidden">
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+     PACKAGES / GROWTH PLANS SECTION
+════════════════════════════════════════════════════════════════ -->
+        <section id="packages-section"
+            style="background:#050E1A;padding-top:72px;padding-bottom:80px;overflow:hidden;position:relative;">
+
+            <!-- Full-section Starfield Canvas -->
+            <canvas id="pkg-starfield-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+
+            <!-- Top ambient glow stays, just brighter -->
+            <div
+                style="position:absolute;top:-10%;left:50%;transform:translateX(-50%);width:700px;height:320px;background:radial-gradient(ellipse at center,rgba(59,130,246,0.12) 0%,transparent 70%);pointer-events:none;z-index:1;">
+            </div>
+
+            <div style="max-width:1280px;margin:0 auto;padding:0 20px;position:relative;z-index:2;">
+
+                <!-- Header -->
+                <div style="text-align:center;margin-bottom:48px;">
+                    <h2
+                        style="font-family:'Instrument Serif',serif;font-size:clamp(34px,5vw,58px);font-weight:600;line-height:0.96;letter-spacing:-0.04em;color:#ffffff;margin:0 0 16px 0;">
+                        Choose Your Growth Plan</h2>
+                    <p
+                        style="font-family:'Inter',sans-serif;font-size:clamp(14px,1.6vw,17px);color:rgba(255,255,255,0.55);max-width:520px;margin:0 auto;line-height:1.55;">
+                        Every package is engineered around one goal: more patients, stronger trust, measurable growth.
+                    </p>
+                </div>
+
+                <!-- 3-Column Grid -->
+                <div class="relative w-full">
+                    <button class="md:hidden absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-10 w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white backdrop-blur border border-white/20 shadow-lg" onclick="document.querySelector('.pkg-grid').scrollBy({left: -window.innerWidth * 0.8, behavior: 'smooth'})"><span class="material-symbols-outlined">chevron_left</span></button>
+                    <button class="md:hidden absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-10 w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white backdrop-blur border border-white/20 shadow-lg" onclick="document.querySelector('.pkg-grid').scrollBy({left: window.innerWidth * 0.8, behavior: 'smooth'})"><span class="material-symbols-outlined">chevron_right</span></button>
+                    <div class="pkg-grid"
+                        style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;">
+
+                    <!-- ── CARD 01: STARTER ── -->
+                    <div class="pkg-card pkg-card-light"
+                        style="background:#fff;border-radius:22px;padding:28px;box-shadow:0 8px 32px rgba(0,0,0,0.05);border:1px solid rgba(11,19,32,0.07);display:flex;flex-direction:column;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s ease;">
+                        <div style="margin-bottom:16px;">
+                            <span
+                                style="display:inline-block;padding:3px 12px;border-radius:100px;background:#F5F7F4;color:#4B5563;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;font-family:'Inter',sans-serif;margin-bottom:12px;">Starter</span>
+                            <h3
+                                style="font-family:'Instrument Serif',serif;font-size:clamp(26px,2.5vw,34px);font-weight:600;letter-spacing:-0.03em;color:#0B1320;line-height:1.05;margin:0 0 8px 0;">
+                                Starter</h3>
+                            <p
+                                style="font-family:'Inter',sans-serif;font-size:13px;color:#3A3A3A;line-height:1.55;margin:0;">
+                                For new clinics establishing a credible digital presence.</p>
+                        </div>
+                        <div style="height:1px;background:rgba(11,19,32,0.07);margin-bottom:16px;"></div>
+                        <ul
+                            style="list-style:none;padding:0;margin:0 0 16px 0;display:flex;flex-direction:column;gap:9px;flex:1;">
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Professional website
+                                (up to 5 pages)</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Mobile-first
+                                responsive design</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Google Business
+                                Profile setup</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Basic local SEO
+                                optimization</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Brand color &amp;
+                                typography system</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Contact &amp; booking
+                                form integration</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>30-day post-launch
+                                support</li>
+                        </ul>
+                        <div
+                            style="background:#F8F9FA;border-radius:12px;padding:14px;margin-bottom:16px;border:1px solid rgba(11,19,32,0.05);">
+                            <p
+                                style="font-family:'Inter',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#9CA3AF;margin:0 0 4px 0;">
+                                Ideal for</p>
+                            <p
+                                style="font-family:'Inter',sans-serif;font-size:12px;color:#4B5563;line-height:1.5;margin:0;">
+                                Solo practitioners &amp; new clinics launching their first professional brand.</p>
+                        </div>
+                        <button onclick="openModal()" class="pkg-btn-light"
+                            style="width:100%;padding:13px 20px;border-radius:12px;background:#0B1320;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:background 0.25s ease,transform 0.2s ease;letter-spacing:-0.01em;">Book
+                            Starter Consultation</button>
+                    </div>
+
+                    <!-- ── CARD 02: PERFORMANCE (FEATURED) ── -->
+                    <div class="pkg-card pkg-card-dark"
+                        style="background:#071B34;border-radius:22px;padding:28px;box-shadow:0 24px 64px rgba(7,27,52,0.40),0 0 0 1px rgba(255,255,255,0.08);display:flex;flex-direction:column;transform:scale(1.04);position:relative;overflow:hidden;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s ease;">
+                        <div
+                            style="position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(59,130,246,0.20) 0%,transparent 70%);pointer-events:none;border-radius:50%;">
+                        </div>
+                        <div
+                            style="position:absolute;bottom:-30px;left:-30px;width:150px;height:150px;background:radial-gradient(circle,rgba(22,196,127,0.12) 0%,transparent 70%);pointer-events:none;border-radius:50%;">
+                        </div>
+                        <div
+                            style="position:absolute;inset:0;opacity:0.05;background-image:radial-gradient(circle at center,white 1px,transparent 1px);background-size:20px 20px;pointer-events:none;border-radius:22px;">
+                        </div>
+
+                        <div style="position:relative;z-index:1;margin-bottom:12px;">
+                            <span
+                                style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:100px;background:rgba(22,196,127,0.15);color:#16C47F;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;font-family:'Inter',sans-serif;border:1px solid rgba(22,196,127,0.2);">⭐
+                                Most Popular</span>
+                        </div>
+                        <div style="margin-bottom:16px;position:relative;z-index:1;">
+                            <h3
+                                style="font-family:'Instrument Serif',serif;font-size:clamp(26px,2.5vw,34px);font-weight:600;letter-spacing:-0.03em;color:#fff;line-height:1.05;margin:0 0 8px 0;">
+                                Performance</h3>
+                            <p
+                                style="font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.60);line-height:1.55;margin:0;">
+                                For ambitious healthcare brands seeking full-service digital dominance.</p>
+                        </div>
+                        <div
+                            style="height:1px;background:rgba(255,255,255,0.10);margin-bottom:16px;position:relative;z-index:1;">
+                        </div>
+                        <ul
+                            style="list-style:none;padding:0;margin:0 0 16px 0;display:flex;flex-direction:column;gap:9px;flex:1;position:relative;z-index:1;">
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.85);">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Everything in Growth
+                            </li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.85);">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Full digital marketing
+                                strategy</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.85);">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Paid social campaigns
+                                (Meta/IG)</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.85);">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Content marketing
+                                &amp; blog systems</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.85);">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Patient journey funnel
+                                optimization</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.85);">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Multi-location SEO
+                                management</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.85);">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Quarterly brand audits
+                            </li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.85);">
+                                <span style="color:#16C47F;font-size:13px;flex-shrink:0;">✦</span>Ongoing retainer
+                                support</li>
+                        </ul>
+                        <div
+                            style="background:rgba(255,255,255,0.06);border-radius:12px;padding:14px;margin-bottom:16px;border:1px solid rgba(255,255,255,0.10);position:relative;z-index:1;">
+                            <p
+                                style="font-family:'Inter',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.30);margin:0 0 4px 0;">
+                                Ideal for</p>
+                            <p
+                                style="font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.60);line-height:1.5;margin:0;">
+                                Hospital groups, premium clinics &amp; aggressive growth-focused healthcare brands.</p>
+                        </div>
+                        <button onclick="openModal()" class="pkg-btn-green"
+                            style="position:relative;z-index:1;width:100%;padding:13px 20px;border-radius:12px;background:#16C47F;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;border:none;cursor:pointer;box-shadow:0 0 28px rgba(22,196,127,0.45);transition:box-shadow 0.3s ease,transform 0.2s ease;letter-spacing:-0.01em;">Apply
+                            For Performance</button>
+                    </div>
+
+                    <!-- ── CARD 03: GROWTH ── -->
+                    <div class="pkg-card pkg-card-light"
+                        style="background:#fff;border-radius:22px;padding:28px;box-shadow:0 8px 32px rgba(0,0,0,0.05);border:1px solid rgba(11,19,32,0.07);display:flex;flex-direction:column;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s ease;">
+                        <div style="margin-bottom:16px;">
+                            <span
+                                style="display:inline-block;padding:3px 12px;border-radius:100px;background:rgba(59,130,246,0.08);color:#3B82F6;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;font-family:'Inter',sans-serif;margin-bottom:12px;">Growth</span>
+                            <h3
+                                style="font-family:'Instrument Serif',serif;font-size:clamp(26px,2.5vw,34px);font-weight:600;letter-spacing:-0.03em;color:#0B1320;line-height:1.05;margin:0 0 8px 0;">
+                                Growth</h3>
+                            <p
+                                style="font-family:'Inter',sans-serif;font-size:13px;color:#3A3A3A;line-height:1.55;margin:0;">
+                                For established clinics ready to dominate local search and scale appointments.</p>
+                        </div>
+                        <div style="height:1px;background:rgba(11,19,32,0.07);margin-bottom:16px;"></div>
+                        <ul
+                            style="list-style:none;padding:0;margin:0 0 16px 0;display:flex;flex-direction:column;gap:9px;flex:1;">
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#3B82F6;font-size:13px;flex-shrink:0;">✦</span>Everything in Starter
+                            </li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#3B82F6;font-size:13px;flex-shrink:0;">✦</span>Full brand identity
+                                system</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#3B82F6;font-size:13px;flex-shrink:0;">✦</span>Advanced local SEO +
+                                map pack targeting</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#3B82F6;font-size:13px;flex-shrink:0;">✦</span>Google Ads campaign
+                                setup</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#3B82F6;font-size:13px;flex-shrink:0;">✦</span>Social media profile
+                                branding</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#3B82F6;font-size:13px;flex-shrink:0;">✦</span>Online reputation
+                                management</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#3B82F6;font-size:13px;flex-shrink:0;">✦</span>Monthly performance
+                                reporting</li>
+                            <li
+                                style="display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:13px;color:#374151;">
+                                <span style="color:#3B82F6;font-size:13px;flex-shrink:0;">✦</span>90-day dedicated
+                                support</li>
+                        </ul>
+                        <div
+                            style="background:#F0F4FF;border-radius:12px;padding:14px;margin-bottom:16px;border:1px solid rgba(59,130,246,0.08);">
+                            <p
+                                style="font-family:'Inter',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#93C5FD;margin:0 0 4px 0;">
+                                Ideal for</p>
+                            <p
+                                style="font-family:'Inter',sans-serif;font-size:12px;color:#4B5563;line-height:1.5;margin:0;">
+                                Multi-doctor clinics &amp; specialty practices ready to scale fast.</p>
+                        </div>
+                        <button onclick="openModal()" class="pkg-btn-blue"
+                            style="width:100%;padding:13px 20px;border-radius:12px;background:#fff;color:#0B1320;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;border:1.5px solid rgba(11,19,32,0.15);cursor:pointer;transition:background 0.25s ease,border-color 0.25s ease,transform 0.2s ease;letter-spacing:-0.01em;">Book
+                            Growth Strategy Call</button>
+                    </div>
+
+                    </div><!-- /pkg-grid -->
+                </div>
+
+                <!-- Bottom CTA -->
+                <div
+                    style="text-align:center;margin-top:48px;padding:36px 32px;background:#fff;border-radius:20px;border:1px solid rgba(11,19,32,0.07);box-shadow:0 8px 32px rgba(0,0,0,0.04);">
+                    <p
+                        style="font-family:'Instrument Serif',serif;font-size:clamp(18px,2.5vw,26px);font-weight:600;color:#0B1320;margin:0 0 8px 0;letter-spacing:-0.02em;">
+                        Not sure which plan fits your clinic?</p>
+                    <p
+                        style="font-family:'Inter',sans-serif;font-size:14px;color:#6B7280;max-width:440px;margin:0 auto 24px auto;line-height:1.55;">
+                        Book a free 30-minute strategy call and we'll recommend the ideal growth system for your goals.
+                    </p>
+                    <button onclick="openModal()"
+                        style="display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:100px;background:#071B34;color:#fff;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;border:none;cursor:pointer;box-shadow:0 6px 24px rgba(7,27,52,0.18);transition:transform 0.2s ease,box-shadow 0.2s ease;letter-spacing:-0.01em;">Book
+                        Free Consultation <span style="font-size:16px;">→</span></button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+
+        <section class="py-16 lg:py-section-gap bg-background" id="testimonials-section">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <h2 class="text-[32px] sm:text-[40px] md:text-[56px] font-semibold text-center mb-12 md:mb-20 tracking-tight text-primary-text"
+                    style="font-family: 'Instrument Serif', serif;">Results From The Frontline</h2>
+                <div class="relative w-full">
+                    <button class="md:hidden absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-4 z-10 w-10 h-10 bg-white shadow-soft-ambient rounded-full flex items-center justify-center text-primary-text border border-border" onclick="document.querySelector('.testimonials-grid').scrollBy({left: -window.innerWidth * 0.8, behavior: 'smooth'})"><span class="material-symbols-outlined">chevron_left</span></button>
+                    <button class="md:hidden absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-4 z-10 w-10 h-10 bg-white shadow-soft-ambient rounded-full flex items-center justify-center text-primary-text border border-border" onclick="document.querySelector('.testimonials-grid').scrollBy({left: window.innerWidth * 0.8, behavior: 'smooth'})"><span class="material-symbols-outlined">chevron_right</span></button>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 testimonials-grid">
+                    <!-- Dr. Alok -->
+                    <div
+                        class="bg-white p-6 sm:p-8 lg:p-10 rounded-premium shadow-soft-ambient border border-border relative group hover:-translate-y-1 transition-all">
+                        <div class="absolute -top-4 -left-2 text-7xl text-accent-blue/10 font-serif"
+                            style="font-family: 'Instrument Serif', serif;">"</div>
+                        <div class="flex gap-1 mb-6 relative z-10">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <p class="text-lg text-primary-text mb-8 leading-relaxed font-serif italic relative z-10"
+                            style="font-family: 'Instrument Serif', serif;">"Since switching to Patient-Gen, we've seen
+                            a 42% increase in new patient inquiries from local SEO alone. The integration was seamless."
+                        </p>
+                        <div class="flex items-center gap-4 mt-auto">
+                            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-background">
+                                <img alt="Dr. Ajay Kumar Kriplani" class="w-full h-full object-cover object-top"
+                                    src="./Hospital_Logos/dr-ajay-kumar-kriplani-3008.png" />
+                            </div>
+                            <div>
+                                <p class="font-bold text-primary-text">Dr. Ajay Kumar Kriplani</p>
+                                <p class="text-[10px] leading-tight text-secondary-text mt-0.5">HOD Lap GI, GI Onco, Bariatric & MIS Surgery</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Priya M -->
+                    <div
+                        class="bg-white p-10 rounded-premium shadow-soft-ambient border border-border relative group hover:-translate-y-1 transition-all">
+                        <div class="absolute -top-4 -left-2 text-7xl text-accent-blue/10 font-serif"
+                            style="font-family: 'Instrument Serif', serif;">"</div>
+                        <div class="flex gap-1 mb-6 relative z-10">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <p class="text-lg text-primary-text mb-8 leading-relaxed font-serif italic relative z-10"
+                            style="font-family: 'Instrument Serif', serif;">"As a Dermatologist, I needed a site that was
+                            calm and professional. Patient-Gen balanced clinical trust with modern aesthetics
+                            perfectly."</p>
+                        <div class="flex items-center gap-4 mt-auto">
+                            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-background">
+                                <img alt="Dr. Umaira" class="w-full h-full object-cover object-top"
+                                    src="./Hospital_Logos/Screenshot 2026-05-21 at 2.18.28 AM.png" />
+                            </div>
+                            <div>
+                                <p class="font-bold text-primary-text">Dr. Umaira</p>
+                                <p class="text-xs text-secondary-text mt-0.5">Queens</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Amit K -->
+                    <div
+                        class="bg-white p-10 rounded-premium shadow-soft-ambient border border-border relative group hover:-translate-y-1 transition-all">
+                        <div class="absolute -top-4 -left-2 text-7xl text-accent-blue/10 font-serif"
+                            style="font-family: 'Instrument Serif', serif;">"</div>
+                        <div class="flex gap-1 mb-6 relative z-10">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <p class="text-lg text-primary-text mb-8 leading-relaxed font-serif italic relative z-10"
+                            style="font-family: 'Instrument Serif', serif;">"The mobile booking flow is incredible. My
+                            clients comment on how easy it is to schedule a session now."</p>
+                        <div class="flex items-center gap-4 mt-auto">
+                            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-background">
+                                <img alt="Dr Akriti Mehera" class="w-full h-full object-cover object-top"
+                                    src="./Hospital_Logos/Screenshot 2026-05-21 at 2.21.56 AM.png" />
+                            </div>
+                            <div>
+                                <p class="font-bold text-primary-text">Dr Akriti Mehera</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+        <!-- Interactive Lead Capture Form Section -->
+        <section class="py-16 lg:py-section-gap bg-background border-y border-border" id="blueprint-section">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[56px] font-semibold text-primary-text mb-4 tracking-tight transition-all duration-700 opacity-100 translate-y-0"
+                        style="font-family: 'Instrument Serif', serif;">Get a Custom Conversion Blueprint for Your
+                        Practice</h2>
+                    <p class="text-lg text-secondary-text max-w-xl mx-auto">Take 60 seconds to tell us about your
+                        practice and we'll send over a tailor-made patient-gen strategy.</p>
+                </div>
+                <div class="bg-white p-8 md:p-14 rounded-[24px] border border-border shadow-soft-ambient">
+                    <!-- Step 1 -->
+                    <div id="step-1">
+                        <div class="space-y-8">
+                            <div class="space-y-3">
+                                <label class="block text-sm font-semibold text-primary-text uppercase tracking-wider"
+                                    for="specialty">What is your specialty?</label>
+                                <select
+                                    class="w-full px-5 py-4 rounded-xl border border-border bg-background focus:bg-white focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none transition-all text-primary-text appearance-none"
+                                    id="specialty">
+                                    <option>Medical Doctor</option>
+                                    <option>Psychologist / Therapist</option>
+                                    <option>Wellness Coach</option>
+                                    <option>Dentist</option>
+                                    <option>Other Healthcare Professional</option>
+                                </select>
+                            </div>
+                            <div class="space-y-3">
+                                <label class="block text-sm font-semibold text-primary-text uppercase tracking-wider"
+                                    for="issue">Current Biggest Website Challenge?</label>
+                                <select
+                                    class="w-full px-5 py-4 rounded-xl border border-border bg-background focus:bg-white focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none transition-all text-primary-text appearance-none"
+                                    id="issue">
+                                    <option>Don't have one yet</option>
+                                    <option>Gets traffic but no bookings</option>
+                                    <option>Outdated / Looks unprofessional</option>
+                                    <option>Hard to manage / Tech headache</option>
+                                </select>
+                            </div>
+                            <button
+                                class="w-full bg-dark-section text-white py-5 rounded-premium font-semibold text-lg hover:-translate-y-1 hover:shadow-lg transition-all"
+                                onclick="nextStep()">
+                                Step 1 of 2
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Step 2 (Hidden Initially) -->
+                    <div class="hidden" id="step-2">
+                        <form class="space-y-8" action="https://api.web3forms.com/submit" method="POST">
+                            <input type="hidden" name="access_key" value="bd97269c-5562-4f9d-ac64-ef93b651dc09">
+                            <div class="space-y-3">
+                                <label class="block text-sm font-semibold text-primary-text uppercase tracking-wider"
+                                    for="name">Full Name</label>
+                                <input
+                                    class="w-full px-5 py-4 rounded-xl border border-border bg-background focus:bg-white focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none transition-all text-primary-text"
+                                    id="name" name="name" placeholder="Dr. Jane Smith" required="" type="text" />
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-3">
+                                    <label
+                                        class="block text-sm font-semibold text-primary-text uppercase tracking-wider"
+                                        for="whatsapp">WhatsApp Number</label>
+                                    <input
+                                        class="w-full px-5 py-4 rounded-xl border border-border bg-background focus:bg-white focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none transition-all text-primary-text"
+                                        id="whatsapp" name="whatsapp" placeholder="+1 (555) 000-0000" required="" type="tel" />
+                                </div>
+                                <div class="space-y-3">
+                                    <label
+                                        class="block text-sm font-semibold text-primary-text uppercase tracking-wider"
+                                        for="email">Professional Email</label>
+                                    <input
+                                        class="w-full px-5 py-4 rounded-xl border border-border bg-background focus:bg-white focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none transition-all text-primary-text"
+                                        id="email" name="email" placeholder="doctor@clinic.com" required="" type="email" />
+                                </div>
+                            </div>
+                            <button
+                                class="w-full bg-cta-green text-white py-5 rounded-premium font-semibold text-lg hover:shadow-[0_0_40px_rgba(22,196,127,0.6)] animate-hover-lift transition-all flex items-center justify-center gap-2"
+                                type="submit">
+                                Generate My Free Blueprint <span
+                                    class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                            </button>
+                            <p
+                                class="text-xs text-center text-secondary-text flex items-center justify-center gap-1.5 mt-[-10px]">
+                                <span class="material-symbols-outlined text-[14px]">lock</span>
+                                Secure &amp; Confidential. We never share your data.
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Repeating CTA (Hidden) -->
+        <section class="hidden"></section>
+
+        <!-- Pricing Section -->
+        <section class="py-16 lg:py-section-gap bg-background" id="pricing-section">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                <h2 class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[56px] font-semibold text-primary-text mb-4 tracking-tight"
+                    style="font-family: 'Instrument Serif', serif;">Transparent, One-Time Investment</h2>
+                <p class="text-lg text-secondary-text mb-16">Zero Hidden Fees. No Ongoing Monthly "Tech Fees."</p>
+
+                <!-- Risk Reversal -->
+                <div
+                    class="bg-white p-6 sm:p-8 lg:p-10 rounded-premium shadow-soft-ambient border border-border flex flex-col md:flex-row items-center gap-6 md:gap-8 text-left hover:-translate-y-1 hover:shadow-lg transition-all">
+                    <div
+                        class="w-20 h-20 shrink-0 rounded-full bg-cta-green/10 flex items-center justify-center text-cta-green">
+                        <span class="material-symbols-outlined text-[40px]">verified_user</span>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-bold text-primary-text mb-3">100% Patient-Booking Guarantee</h4>
+                        <p class="text-secondary-text text-lg leading-relaxed">If you don't receive a single inquiry
+                            through your new page within 30 days, we'll rework your entire layout for free.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="py-16 lg:py-section-gap bg-background" id="faq-section">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6">
+                <h2 class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[56px] font-semibold text-center mb-10 md:mb-16 text-primary-text"
+                    style="font-family: 'Instrument Serif', serif;">Frequently Asked Questions</h2>
+                <div class="space-y-4">
+                    <details class="group bg-transparent border-b border-border pb-6" open="">
+                        <summary
+                            class="flex justify-between items-center cursor-pointer list-none font-bold text-lg text-primary-text py-4">
+                            Is this a one-time fee or a monthly subscription?
+                            <span
+                                class="material-symbols-outlined group-open:rotate-180 transition-transform text-accent-blue">expand_more</span>
+                        </summary>
+                        <p class="mt-2 text-secondary-text leading-relaxed text-base">
+                            One-time investment. Unlike agencies that keep you on a "maintenance leash," you own your
+                            Patient-Gen page 100%. We build it, optimize it, and hand you the keys.
+                        </p>
+                    </details>
+                    <details class="group bg-transparent border-b border-border pb-6">
+                        <summary
+                            class="flex justify-between items-center cursor-pointer list-none font-bold text-lg text-primary-text py-4">
+                            Does this work with my existing Meta or Google Ads?
+                            <span
+                                class="material-symbols-outlined group-open:rotate-180 transition-transform text-accent-blue">expand_more</span>
+                        </summary>
+                        <p class="mt-2 text-secondary-text leading-relaxed text-base">
+                            Absolutely. In fact, our pages are specifically engineered to maximize the ROI of your ad
+                            spend by providing the highest-converting landing experience in the medical niche.
+                        </p>
+                    </details>
+                    <details class="group bg-transparent border-b border-border pb-6">
+                        <summary
+                            class="flex justify-between items-center cursor-pointer list-none font-bold text-lg text-primary-text py-4">
+                            How much time do I need to commit to this?
+                            <span
+                                class="material-symbols-outlined group-open:rotate-180 transition-transform text-accent-blue">expand_more</span>
+                        </summary>
+                        <p class="mt-2 text-secondary-text leading-relaxed text-base">
+                            Very little. We handle the heavy lifting—from copywriting to technical setup. We only
+                            require a brief 30-minute onboarding call to understand your clinical specialties.
+                        </p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Repeating CTA (Hidden) -->
+        <section class="hidden"></section>
+
+        <!-- Final CTA -->
+        <section class="py-16 lg:py-32 bg-dark-section text-white overflow-hidden relative" id="final-cta-section">
+            <div class="absolute inset-0 opacity-20 pointer-events-none">
+                <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent-blue/30 rounded-full blur-[120px]">
+                </div>
+            </div>
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10">
+                <h2 class="text-[36px] sm:text-[48px] md:text-[64px] lg:text-[80px] font-semibold leading-[1] tracking-[-0.04em] text-white mb-6 md:mb-8 transition-all duration-700 opacity-100 translate-y-0"
+                    style="font-family: 'Instrument Serif', serif;">
+                    Stop Losing Patients to<br><span class="italic text-white/70">Outdated Sites.</span>
+                </h2>
+                <p class="text-xl text-white/80 mb-12 max-w-2xl mx-auto">
+                    Secure your digital asset today and transform your practice's front door.
+                </p>
+                <button
+                    class="bg-cta-green text-white px-12 py-6 rounded-premium font-bold text-xl shadow-glow hover:shadow-[0_0_40px_rgba(22,196,127,0.8)] animate-hover-lift transition-all"
+                    onclick="openModal()">
+                    Claim Your Patient-Gen Page
+                </button>
+                <p class="mt-12 text-sm text-white/50 tracking-wide uppercase">Join 250+ clinics transforming their digital patient journey with Smiith&amp;Co.</p>
+            </div>
+        </section>
+    </main>
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+    <div class="modal-content" id="modalContent">
+        <div class="bg-white p-8 md:p-10 rounded-[24px] shadow-soft-ambient border border-border relative">
+            <button class="absolute top-6 right-6 text-secondary-text hover:text-primary-text transition-colors"
+                onclick="closeModal()">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold mb-3 text-primary-text" style="font-family: 'Instrument Serif', serif;">
+                    Build My Patient-Gen Page</h3>
+                <p class="text-secondary-text">Enter your details to get started.</p>
+            </div>
+            <form class="space-y-5" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="bd97269c-5562-4f9d-ac64-ef93b651dc09">
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-primary-text uppercase tracking-wider"
+                        for="m-name">Full Name</label>
+                    <input
+                        class="w-full px-5 py-4 rounded-xl border border-border bg-background focus:bg-white focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none transition-all text-primary-text"
+                        id="m-name" name="name" placeholder="Dr. Jane Smith" required="" type="text" />
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-primary-text uppercase tracking-wider"
+                        for="m-whatsapp">WhatsApp Number</label>
+                    <input
+                        class="w-full px-5 py-4 rounded-xl border border-border bg-background focus:bg-white focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none transition-all text-primary-text"
+                        id="m-whatsapp" name="whatsapp" placeholder="+1 (555) 000-0000" required="" type="tel" />
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-primary-text uppercase tracking-wider"
+                        for="m-email">Professional Email</label>
+                    <input
+                        class="w-full px-5 py-4 rounded-xl border border-border bg-background focus:bg-white focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none transition-all text-primary-text"
+                        id="m-email" name="email" placeholder="doctor@clinic.com" required="" type="email" />
+                </div>
+                <button
+                    class="w-full bg-cta-green text-white py-5 rounded-premium font-semibold text-lg shadow-glow hover:shadow-[0_0_40px_rgba(22,196,127,0.6)] animate-hover-lift transition-all mt-4"
+                    type="submit">
+                    Get Started Now
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Sticky Mobile Footer -->
+    <div
+        class="fixed bottom-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-t border-border md:hidden flex justify-center items-center py-4 px-6 shadow-soft-ambient">
+        <button
+            class="w-full bg-dark-section text-white px-8 py-4 rounded-premium flex items-center justify-center gap-2 font-semibold hover:shadow-lg active:scale-95 transition-all"
+            onclick="openModal()">
+            Get Started Now
+        </button>
+    </div>
+    <script>
+        // Modal Functions
+        function openModal() {
+            document.getElementById('modalOverlay').style.display = 'block';
+            document.getElementById('modalContent').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            document.getElementById('modalContent').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Lead Form Steps
+        function nextStep() {
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
+        }
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0', 'in-view');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.bento-item, h2, h1, .lamp-anim').forEach(el => {
+            if (!el.classList.contains('lamp-anim')) {
+                // Don't override hero h1 which already has these classes
+                if (!el.classList.contains('opacity-0')) {
+                    el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+                }
+            }
+            observer.observe(el);
+        });
+
+        // Accent word: trigger after h1 reveal
+        const heroH1 = document.getElementById('hero-h1');
+        const accentWord = document.getElementById('accent-word');
+        const underlinePath = document.getElementById('accent-underline-path');
+        if (heroH1 && accentWord) {
+            const accentObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Wait for h1 slide-up (700ms) then reveal accent
+                        setTimeout(() => {
+                            accentWord.classList.add('revealed');
+                            // Draw the underline after blur clears (accent anim ~600ms)
+                            setTimeout(() => {
+                                if (underlinePath) underlinePath.classList.add('draw');
+                            }, 600);
+                        }, 400);
+                        accentObserver.unobserve(heroH1);
+                    }
+                });
+            }, { threshold: 0.3 });
+            accentObserver.observe(heroH1);
+        }
+
+        // ── Hero Confetti ──────────────────────────────────────────────
+        (function initHeroConfetti() {
+            const canvas = document.getElementById('hero-confetti');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const heroSection = document.getElementById('hero-section');
+
+            function resize() {
+                const rect = heroSection.getBoundingClientRect();
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            const WHITE_COLORS = [
+                'rgba(255,255,255,0.85)',
+                'rgba(248,250,252,0.75)',
+                'rgba(203,213,225,0.65)',
+                'rgba(186,230,253,0.60)',
+                'rgba(167,243,208,0.55)',
+            ];
+            const SHAPES = ['rect', 'circle', 'diamond', 'star'];
+
+            function makepiece(cw, ch) {
+                return {
+                    x: -cw * 0.2 + Math.random() * cw * 1.4,
+                    y: -Math.random() * ch * 0.4,
+                    z: Math.random() * 1500 + 600,
+                    vx: (Math.random() - 0.5) * 1.0,      /* 2x */
+                    vy: Math.random() * 0.6 + 0.2,         /* 2x */
+                    vz: -(Math.random() * 1.0 + 0.4),      /* 2x */
+                    rot: Math.random() * Math.PI * 2,
+                    rotSpd: (Math.random() - 0.5) * 0.08,  /* 2x */
+                    size: Math.random() * 10 + 5,
+                    opacity: Math.random() * 0.5 + 0.5,
+                    color: WHITE_COLORS[Math.floor(Math.random() * WHITE_COLORS.length)],
+                    shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
+                    phase: Math.random() * Math.PI * 2,
+                    sway: Math.random() * 0.4 + 0.2,
+                    fading: false,
+                };
+            }
+
+            /* Piece pre-seeded mid-flight — visible immediately on load */
+            function makeSeedPiece(cw, ch) {
+                return {
+                    x: Math.random() * cw,              /* anywhere across full width */
+                    y: Math.random() * ch,              /* anywhere across full height */
+                    z: Math.random() * 900 + 100,       /* already close to viewer */
+                    vx: (Math.random() - 0.5) * 1.0,
+                    vy: Math.random() * 0.6 + 0.2,
+                    vz: -(Math.random() * 1.0 + 0.4),
+                    rot: Math.random() * Math.PI * 2,
+                    rotSpd: (Math.random() - 0.5) * 0.08,
+                    size: Math.random() * 10 + 5,
+                    opacity: Math.random() * 0.6 + 0.4,
+                    color: WHITE_COLORS[Math.floor(Math.random() * WHITE_COLORS.length)],
+                    shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
+                    phase: Math.random() * Math.PI * 2,
+                    sway: Math.random() * 0.4 + 0.2,
+                    fading: false,
+                };
+            }
+
+            function drawPiece(p, cw, ch) {
+                const persp = 700;
+                const scale = persp / (persp + p.z);
+                if (scale <= 0.02 || scale > 2) return;
+                const px = p.x + (p.x - cw / 2) * (1 - scale);
+                const py = p.y + (p.y - ch / 2) * (1 - scale);
+                const s = p.size * scale;
+                const alpha = Math.min(p.opacity * scale * 1.4, 0.9);
+
+                ctx.save();
+                ctx.translate(px, py);
+                ctx.rotate(p.rot);
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = p.color;
+                ctx.shadowColor = 'rgba(0,0,0,0.08)';
+                ctx.shadowBlur = scale * 3;
+
+                if (p.shape === 'rect') {
+                    ctx.fillRect(-s * 0.8, -s * 0.4, s * 1.6, s * 0.8);
+                } else if (p.shape === 'circle') {
+                    ctx.beginPath(); ctx.arc(0, 0, s * 0.55, 0, Math.PI * 2); ctx.fill();
+                } else if (p.shape === 'diamond') {
+                    ctx.beginPath();
+                    ctx.moveTo(0, -s); ctx.lineTo(s * 0.55, 0);
+                    ctx.lineTo(0, s); ctx.lineTo(-s * 0.55, 0);
+                    ctx.closePath(); ctx.fill();
+                } else { // star
+                    ctx.beginPath();
+                    for (let i = 0; i < 6; i++) {
+                        const a = (i * Math.PI) / 3;
+                        const ia = ((i + 0.5) * Math.PI) / 3;
+                        i === 0
+                            ? ctx.moveTo(Math.cos(a) * s * 0.65, Math.sin(a) * s * 0.65)
+                            : ctx.lineTo(Math.cos(a) * s * 0.65, Math.sin(a) * s * 0.65);
+                        ctx.lineTo(Math.cos(ia) * s * 0.3, Math.sin(ia) * s * 0.3);
+                    }
+                    ctx.closePath(); ctx.fill();
+                }
+                ctx.restore();
+            }
+
+            const cw = () => canvas.width / (window.devicePixelRatio || 1);
+            const ch = () => canvas.height / (window.devicePixelRatio || 1);
+
+            /* 400 total: 250 pre-seeded (instant visible) + 150 from the back (flow) */
+            let pieces = [
+                ...Array.from({ length: 250 }, () => makeSeedPiece(cw(), ch())),
+                ...Array.from({ length: 150 }, () => makepiece(cw(), ch())),
+            ];
+            let rafId;
+
+            function animate() {
+                const W = cw(), H = ch();
+                ctx.clearRect(0, 0, W, H);
+
+                pieces.forEach(p => {
+                    p.phase += 0.036;                                      /* 2x */
+                    p.x += p.vx + Math.sin(p.phase) * p.sway * 0.5;     /* 2x sway */
+                    p.y += p.vy + Math.cos(p.phase * 0.7) * 0.3;        /* 2x bob */
+                    p.z += p.vz;
+                    p.rot += p.rotSpd;
+                    p.vx += (Math.random() - 0.5) * 0.008;               /* 2x turbulence */
+                    p.vy += 0.0006;                                        /* 2x gravity */
+                    p.vx *= 0.999; p.vy *= 0.999;
+                    p.vz *= 1.0008;                                        /* 2x acceleration */
+
+                    if (!p.fading && (p.z <= 180 || p.x < -180 || p.x > W + 180 || p.y > H + 180))
+                        p.fading = true;
+                    if (p.fading) p.opacity -= 0.036;                     /* 2x fade speed */
+
+                    if (p.opacity <= 0) {
+                        const np = makepiece(W, H);
+                        Object.assign(p, np);
+                    }
+                    drawPiece(p, W, H);
+                });
+                rafId = requestAnimationFrame(animate);
+            }
+
+            animate();
+        })();
+
+        // ── Auto-popup: fires once when user scrolls PAST the Packages section ──
+        (function initScrollPopup() {
+            const pkgSection = document.getElementById('packages-section');
+            if (!pkgSection) return;
+
+            let triggered = false;
+
+            // rootMargin "-100% 0px 0px 0px" means the trigger fires the moment
+            // the section's BOTTOM edge crosses the top of the viewport (fully scrolled past).
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    // entry.isIntersecting = false AND boundingRect top < 0 → scrolled PAST it
+                    if (!entry.isIntersecting && entry.boundingClientRect.top < 0 && !triggered) {
+                        triggered = true;
+                        observer.disconnect();
+                        // Small delay so it doesn't feel instantaneous
+                        setTimeout(function() {
+                            if (typeof openModal === 'function') openModal();
+                        }, 400);
+                    }
+                });
+            }, { threshold: 0 });
+
+            observer.observe(pkgSection);
+        })();
+
+        // ── Packages Section: Full Starfield Background ────────────────────
+        (function initPkgStarfield() {
+            const section = document.getElementById('packages-section');
+            const canvas  = document.getElementById('pkg-starfield-canvas');
+            if (!section || !canvas) return;
+
+            const ctx        = canvas.getContext('2d');
+            const QUANTITY   = 400;
+            const SPEED      = 1.2;
+            const STAR_COLOR = 'rgba(160,200,255,0.85)';
+            const BG_ALPHA   = 'rgba(5,14,26,0.20)';
+
+            let w, h, cx, cy, z, colorRatio;
+            let stars  = [];
+            let rafId  = null;
+            let running = false;
+
+            function resize() {
+                const dpr = window.devicePixelRatio || 1;
+                w = section.offsetWidth;
+                h = section.offsetHeight;
+                canvas.width  = w * dpr;
+                canvas.height = h * dpr;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                cx = w / 2;
+                cy = h / 2;
+                z  = (w + h) / 2;
+                colorRatio = 1 / z;
+            }
+
+            function makeStar() {
+                return {
+                    x: Math.random() * w * 2 - cx * 2,
+                    y: Math.random() * h * 2 - cy * 2,
+                    z: Math.round(Math.random() * z),
+                    px: 0, py: 0, sx: 0, sy: 0, ok: true
+                };
+            }
+
+            function bigBang() { stars = Array.from({ length: QUANTITY }, makeStar); }
+
+            function update() {
+                const ratio = QUANTITY / 2;
+                stars.forEach(s => {
+                    s.ok = true;
+                    s.px = s.sx; s.py = s.sy;
+                    s.z -= SPEED;
+                    if (s.z <= 0) { s.z += z; s.ok = false; }
+                    if (s.z > z)  { s.z -= z; s.ok = false; }
+                    s.sx = cx + (s.x / s.z) * ratio;
+                    s.sy = cy + (s.y / s.z) * ratio;
+                });
+            }
+
+            function draw() {
+                ctx.fillStyle = BG_ALPHA;
+                ctx.fillRect(0, 0, w, h);
+                ctx.strokeStyle = STAR_COLOR;
+                stars.forEach(s => {
+                    if (s.ok && s.px > 0 && s.px < w && s.py > 0 && s.py < h) {
+                        ctx.lineWidth = Math.max(0.1, (1 - colorRatio * s.z) * 2);
+                        ctx.beginPath();
+                        ctx.moveTo(s.px, s.py);
+                        ctx.lineTo(s.sx, s.sy);
+                        ctx.stroke();
+                    }
+                });
+            }
+
+            function tick() { update(); draw(); if (running) rafId = requestAnimationFrame(tick); }
+
+            function start() {
+                if (running) return;
+                resize();
+                if (!stars.length) bigBang();
+                running = true;
+                tick();
+            }
+
+            function stop() {
+                running = false;
+                if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+            }
+
+            new IntersectionObserver(entries => {
+                entries.forEach(e => e.isIntersecting ? start() : stop());
+            }, { threshold: 0.15 }).observe(section);
+
+            window.addEventListener('resize', () => { if (running) resize(); });
+        })();
+
+        // ── Growth Card: Individual Starfield ──────────────────────────────
+        (function initGrowthStarfield() {
+            const card   = document.getElementById('growth-card');
+            const canvas = document.getElementById('starfield-canvas');
+            if (!card || !canvas) return;
+
+            const ctx        = canvas.getContext('2d');
+            const QUANTITY   = 280;
+            const SPEED      = 1.5;
+            const STAR_COLOR = 'rgba(180,210,255,0.9)';
+            const BG_ALPHA   = 'rgba(6,15,30,0.18)';
+
+            let w, h, cx, cy, z, colorRatio;
+            let stars  = [];
+            let rafId  = null;
+            let running = false;
+
+            function resize() {
+                const dpr  = window.devicePixelRatio || 1;
+                const rect = card.getBoundingClientRect();
+                w = rect.width; h = rect.height;
+                canvas.width  = w * dpr;
+                canvas.height = h * dpr;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                cx = w / 2; cy = h / 2;
+                z  = (w + h) / 2;
+                colorRatio = 1 / z;
+            }
+
+            function makeStar() {
+                return {
+                    x: Math.random() * w * 2 - cx * 2,
+                    y: Math.random() * h * 2 - cy * 2,
+                    z: Math.round(Math.random() * z),
+                    px: 0, py: 0, sx: 0, sy: 0, ok: true
+                };
+            }
+
+            function bigBang() { stars = Array.from({ length: QUANTITY }, makeStar); }
+
+            function update() {
+                const ratio = QUANTITY / 2;
+                stars.forEach(s => {
+                    s.ok = true;
+                    s.px = s.sx; s.py = s.sy;
+                    s.z -= SPEED;
+                    if (s.z <= 0) { s.z += z; s.ok = false; }
+                    if (s.z > z)  { s.z -= z; s.ok = false; }
+                    s.sx = cx + (s.x / s.z) * ratio;
+                    s.sy = cy + (s.y / s.z) * ratio;
+                });
+            }
+
+            function draw() {
+                ctx.fillStyle = BG_ALPHA;
+                ctx.fillRect(0, 0, w, h);
+                ctx.strokeStyle = STAR_COLOR;
+                stars.forEach(s => {
+                    if (s.ok && s.px > 0 && s.px < w && s.py > 0 && s.py < h) {
+                        ctx.lineWidth = Math.max(0.1, (1 - colorRatio * s.z) * 1.8);
+                        ctx.beginPath();
+                        ctx.moveTo(s.px, s.py);
+                        ctx.lineTo(s.sx, s.sy);
+                        ctx.stroke();
+                    }
+                });
+            }
+
+            function tick() { update(); draw(); if (running) rafId = requestAnimationFrame(tick); }
+
+            function start() {
+                if (running) return;
+                resize();
+                if (!stars.length) bigBang();
+                running = true;
+                tick();
+            }
+
+            function stop() {
+                running = false;
+                if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+            }
+
+            new IntersectionObserver(entries => {
+                entries.forEach(e => e.isIntersecting ? start() : stop());
+            }, { threshold: 0.2 }).observe(card);
+
+            window.addEventListener('resize', () => { if (running) resize(); });
+        })();
+
+        // Beams Background Logic
+
+        class BeamsBackground {
+            constructor(canvasId, hueBase = 120) {
+                this.canvas = document.getElementById(canvasId);
+                if (!this.canvas) return;
+                this.ctx = this.canvas.getContext('2d');
+                this.beams = [];
+                this.animationFrame = null;
+                this.MINIMUM_BEAMS = 20;
+                this.opacityMap = { subtle: 0.7, medium: 0.85, strong: 1 };
+                this.intensity = 'strong';
+                this.hueBase = hueBase;
+
+                this.init();
+                window.addEventListener('resize', () => this.updateCanvasSize());
+            }
+
+            createBeam(width, height) {
+                const angle = -35 + Math.random() * 10;
+                return {
+                    x: Math.random() * width * 1.5 - width * 0.25,
+                    y: Math.random() * height * 1.5 - height * 0.25,
+                    width: 30 + Math.random() * 60,
+                    length: height * 2.5,
+                    angle: angle,
+                    speed: 1.8 + Math.random() * 3.6,
+                    opacity: 0.12 + Math.random() * 0.16,
+                    hue: this.hueBase + Math.random() * 40,
+                    pulse: Math.random() * Math.PI * 2,
+                    pulseSpeed: 0.06 + Math.random() * 0.09,
+                };
+            }
+
+            updateCanvasSize() {
+                const dpr = window.devicePixelRatio || 1;
+                const rect = this.canvas.parentElement.getBoundingClientRect();
+                this.canvas.width = rect.width * dpr;
+                this.canvas.height = rect.height * dpr;
+                this.canvas.style.width = `${rect.width}px`;
+                this.canvas.style.height = `${rect.height}px`;
+                this.ctx.scale(dpr, dpr);
+
+                const totalBeams = this.MINIMUM_BEAMS * 1.5;
+                this.beams = Array.from({ length: totalBeams }, () =>
+                    this.createBeam(this.canvas.width / dpr, this.canvas.height / dpr)
+                );
+            }
+
+            resetBeam(beam, index, totalBeams) {
+                const dpr = window.devicePixelRatio || 1;
+                const width = this.canvas.width / dpr;
+                const height = this.canvas.height / dpr;
+                const column = index % 3;
+                const spacing = width / 3;
+
+                beam.y = height + 100;
+                beam.x = column * spacing + spacing / 2 + (Math.random() - 0.5) * spacing * 0.5;
+                beam.width = 100 + Math.random() * 100;
+                beam.speed = 1.5 + Math.random() * 1.2;
+                beam.hue = this.hueBase + (index * 40) / totalBeams;
+                beam.opacity = 0.2 + Math.random() * 0.1;
+                return beam;
+            }
+
+            drawBeam(beam) {
+                this.ctx.save();
+                this.ctx.translate(beam.x, beam.y);
+                this.ctx.rotate((beam.angle * Math.PI) / 180);
+
+                const pulsingOpacity = beam.opacity * (0.8 + Math.sin(beam.pulse) * 0.2) * this.opacityMap[this.intensity];
+                const gradient = this.ctx.createLinearGradient(0, 0, 0, beam.length);
+
+                gradient.addColorStop(0, `hsla(${beam.hue}, 85%, 65%, 0)`);
+                gradient.addColorStop(0.1, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`);
+                gradient.addColorStop(0.4, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity})`);
+                gradient.addColorStop(0.6, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity})`);
+                gradient.addColorStop(0.9, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`);
+                gradient.addColorStop(1, `hsla(${beam.hue}, 85%, 65%, 0)`);
+
+                this.ctx.fillStyle = gradient;
+                this.ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length);
+                this.ctx.restore();
+            }
+
+            animate() {
+                const dpr = window.devicePixelRatio || 1;
+                const width = this.canvas.width / dpr;
+                const height = this.canvas.height / dpr;
+
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                this.beams.forEach((beam, index) => {
+                    beam.y -= beam.speed;
+                    beam.pulse += beam.pulseSpeed;
+
+                    if (beam.y + beam.length < -100) {
+                        this.resetBeam(beam, index, this.beams.length);
+                    }
+
+                    this.drawBeam(beam);
+                });
+
+                this.animationFrame = requestAnimationFrame(() => this.animate());
+            }
+
+            init() {
+                this.updateCanvasSize();
+                this.animate();
+            }
+        }
+
+        // Initialize beams background
+        new BeamsBackground('beams-canvas', 120);
+
+        // ── Sparkles Headline Animation ────────────────────────────────────────
+        (function initSparkles() {
+            const canvas = document.getElementById('sparkles-headline-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const PARTICLE_COLOR = '#071C34';
+            let particles = [];
+            let animId = null;
+            let running = false;
+
+            function resize() {
+                const rect = canvas.getBoundingClientRect();
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.scale(dpr, dpr);
+            }
+
+            function hexToRgb(hex) {
+                const r = parseInt(hex.slice(1, 3), 16);
+                const g = parseInt(hex.slice(3, 5), 16);
+                const b = parseInt(hex.slice(5, 7), 16);
+                return { r, g, b };
+            }
+
+            const rgb = hexToRgb(PARTICLE_COLOR);
+
+            function createParticle(w, h) {
+                return {
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    radius: Math.random() * 1.8 + 0.4,
+                    opacity: Math.random(),
+                    opacitySpeed: (Math.random() * 0.015 + 0.005) * (Math.random() < 0.5 ? 1 : -1),
+                    dx: (Math.random() - 0.5) * 0.4,
+                    dy: (Math.random() - 0.5) * 0.4,
+                };
+            }
+
+            function initParticles() {
+                const rect = canvas.getBoundingClientRect();
+                const w = rect.width || canvas.width;
+                const h = rect.height || canvas.height;
+                const density = Math.floor((w * h) / 3500);
+                particles = Array.from({ length: Math.max(density, 60) }, () => createParticle(w, h));
+            }
+
+            function draw() {
+                const rect = canvas.getBoundingClientRect();
+                const w = rect.width || canvas.width;
+                const h = rect.height || canvas.height;
+
+                ctx.clearRect(0, 0, w, h);
+
+                particles.forEach(p => {
+                    // move
+                    p.x += p.dx;
+                    p.y += p.dy;
+                    p.opacity += p.opacitySpeed;
+
+                    // bounce opacity
+                    if (p.opacity >= 1) { p.opacity = 1; p.opacitySpeed *= -1; }
+                    if (p.opacity <= 0) { p.opacity = 0; p.opacitySpeed *= -1; }
+
+                    // wrap position
+                    if (p.x < 0) p.x = w;
+                    if (p.x > w) p.x = 0;
+                    if (p.y < 0) p.y = h;
+                    if (p.y > h) p.y = 0;
+
+                    // draw
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${p.opacity})`;
+                    ctx.fill();
+                });
+
+                animId = requestAnimationFrame(draw);
+            }
+
+            function start() {
+                if (running) return;
+                running = true;
+                resize();
+                initParticles();
+                canvas.classList.add('visible');
+                draw();
+            }
+
+            function stop() {
+                if (!running) return;
+                running = false;
+                cancelAnimationFrame(animId);
+                canvas.classList.remove('visible');
+            }
+
+            // Observe when the section enters viewport
+            const solutionSection = document.getElementById('solution-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        start();
+                    } else {
+                        stop();
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            if (solutionSection) observer.observe(solutionSection);
+
+            window.addEventListener('resize', () => {
+                if (!running) return;
+                resize();
+                initParticles();
+            });
+        })();
+    </script>
+    <script>
+        // Make the Performance package the default package in mobile view
+        document.addEventListener("DOMContentLoaded", () => {
+            const pkgGrid = document.querySelector('.pkg-grid');
+            if (pkgGrid && window.innerWidth <= 640) {
+                // Short delay to ensure CSS has applied and layout is calculated
+                setTimeout(() => {
+                    const performanceCard = pkgGrid.children[1];
+                    if (performanceCard) {
+                        const scrollPos = performanceCard.offsetLeft - (pkgGrid.clientWidth / 2) + (performanceCard.clientWidth / 2);
+                        pkgGrid.scrollTo({ left: scrollPos, behavior: 'smooth' });
+                    }
+                }, 300);
+            }
+        });
+    </script>
+</body>
+
+</html>
